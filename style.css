@@ -1,0 +1,405 @@
+:root {
+  --bg: #f4f5f7;
+  --panel: #ffffff;
+  --side: #fbfbfc;
+  --ink: #16181d;
+  --muted: #6b7280;
+  --line: #e2e5ea;
+  --line-soft: #eceef2;
+  --accent: #4f46e5;
+  --accent-soft: #ecebfd;
+  --accent-ink: #ffffff;
+  --danger: #d1344b;
+  --warn: #b45309;
+  --ok: #12805c;
+  --radius: 10px;
+  --sidebar-w: 248px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f1116;
+    --panel: #181b22;
+    --side: #13161c;
+    --ink: #e8eaed;
+    --muted: #949aa6;
+    --line: #272b34;
+    --line-soft: #20242c;
+    --accent: #7c74f6;
+    --accent-soft: #262244;
+    --danger: #ff6b81;
+    --warn: #e0a44a;
+    --ok: #3ecf9a;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+.hidden { display: none !important; }
+.muted { color: var(--muted); font-size: 12.5px; margin: 2px 0 0; }
+.sub { color: var(--muted); font-size: 12.5px; margin: 4px 0 0; }
+.error { color: var(--danger); font-size: 13px; min-height: 1.2em; }
+.warn { color: var(--warn); font-size: 12px; line-height: 1.45; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; }
+
+button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  border-radius: 8px;
+}
+button:hover { border-color: var(--muted); }
+button.primary {
+  font-weight: 600;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: transparent;
+}
+button.primary:hover { filter: brightness(1.08); }
+button.ghost {
+  border: none;
+  background: none;
+  color: var(--muted);
+  padding: 4px 7px;
+  border-radius: 6px;
+}
+button.ghost:hover { background: var(--line-soft); color: var(--ink); }
+button.danger:hover { border-color: var(--danger); color: var(--danger); }
+
+/* ---------- setup ---------- */
+
+.setup {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 48px 20px;
+}
+.setup h1 { font-size: 21px; margin: 0 0 8px; }
+.setup label {
+  display: block; margin: 18px 0 0;
+  font-size: 12.5px; font-weight: 600; color: var(--muted);
+}
+.setup label span { font-weight: 400; display: block; }
+.setup input {
+  width: 100%; margin-top: 6px; padding: 10px 12px;
+  font-size: 14px; color: var(--ink);
+  background: var(--panel); border: 1px solid var(--line); border-radius: 8px;
+}
+.setup .warn { margin: 16px 0; }
+.setup button.primary { width: 100%; padding: 11px; }
+
+/* ---------- app shell ---------- */
+
+.app {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  height: 100vh;
+}
+
+#sidebar {
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 10px 10px;
+  background: var(--side);
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+}
+
+.brand {
+  display: flex; align-items: center; gap: 9px;
+  padding: 0 8px 14px;
+  font-size: 15px; font-weight: 700; letter-spacing: -.01em;
+}
+.brand img { border-radius: 5px; }
+
+.nav { display: flex; flex-direction: column; gap: 1px; }
+
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  width: 100%; padding: 7px 9px;
+  border: 1px solid transparent;
+  background: none;
+  border-radius: 7px;
+  font-size: 13.5px; text-align: left;
+  color: var(--ink);
+}
+.nav-item:hover { background: var(--line-soft); border-color: transparent; }
+.nav-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.nav-item.drop-target {
+  border-color: var(--accent);
+  border-style: dashed;
+  background: var(--accent-soft);
+}
+.nav-ico { flex: none; width: 17px; text-align: center; font-size: 13px; }
+.nav-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-count { flex: none; font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.nav-item.active .nav-count { color: var(--accent); }
+.nav-item.muted-item { color: var(--muted); font-size: 12.5px; }
+.nav-item.sub-item { padding-left: 22px; font-size: 12.5px; color: var(--muted); }
+
+.side-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin: 18px 0 4px; padding: 0 9px;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+.side-head button { font-size: 15px; line-height: 1; }
+
+.side-foot {
+  margin-top: auto; padding-top: 12px;
+  display: flex; align-items: center; gap: 4px;
+  border-top: 1px solid var(--line);
+}
+.status { flex: 1; font-size: 11px; color: var(--muted); padding-left: 6px; }
+.status.saving { color: var(--warn); }
+.status.saved { color: var(--ok); }
+.status.failed { color: var(--danger); }
+
+/* ---------- main ---------- */
+
+#main {
+  grid-column: 2; grid-row: 1;
+  overflow: auto;
+  min-width: 0;
+  padding: 22px 24px 24px;
+}
+#main-head { margin-bottom: 18px; }
+#main-head h1 { font-size: 20px; margin: 0; letter-spacing: -.01em; }
+.h1-ico { margin-right: 9px; }
+
+.head-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.head-tools { display: flex; gap: 4px; flex: none; }
+.head-tools button { font-size: 12.5px; }
+
+.progress {
+  height: 5px; margin-top: 10px; max-width: 420px;
+  background: var(--line); border-radius: 999px; overflow: hidden;
+}
+.progress-fill { height: 100%; background: var(--accent); border-radius: 999px; }
+
+.section-title {
+  font-size: 11px; font-weight: 700; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--muted);
+  margin: 0 0 10px;
+}
+.empty { color: var(--muted); padding: 40px 4px; font-size: 13.5px; }
+.stack { display: flex; flex-direction: column; gap: 8px; max-width: 620px; }
+
+/* ---------- board ---------- */
+
+/* Column count is per project, so the track list is set inline by board().
+   Past a few columns the board scrolls sideways rather than crushing cards. */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(250px, 1fr));
+  gap: 14px;
+  align-items: start;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+
+.col-tools { display: flex; gap: 2px; margin-left: auto; opacity: 0; }
+.col:hover .col-tools { opacity: 1; }
+.col-tools .ghost.sm { font-size: 12px; padding: 1px 5px; }
+
+/* Pinned to the right edge: once a board has enough columns to scroll, an
+   add button parked at the far end is a button you never find. */
+.col-add {
+  position: sticky;
+  right: 0;
+  display: flex; align-items: center; justify-content: center;
+  align-self: stretch;
+  min-height: 74px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 19px;
+  line-height: 1;
+}
+.col-add:hover { border-color: var(--accent); color: var(--accent); }
+
+.col {
+  background: var(--side);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px;
+  min-width: 0;
+}
+.col.over { border-color: var(--accent); background: var(--accent-soft); }
+
+.col-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 2px 4px 10px;
+}
+.col-name { font-size: 12.5px; font-weight: 700; }
+.col-count {
+  font-size: 11px; color: var(--muted);
+  background: var(--line); border-radius: 999px; padding: 1px 7px;
+  font-variant-numeric: tabular-nums;
+}
+.col-body { display: flex; flex-direction: column; gap: 8px; min-height: 60px; }
+.col-empty {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: 16px 10px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ---------- card ---------- */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 9px 11px;
+  cursor: grab;
+}
+.card:hover { border-color: var(--muted); }
+.card.dragging { opacity: .4; cursor: grabbing; }
+.card.overdue { border-left: 3px solid var(--danger); }
+.card.done { opacity: .55; }
+
+.card-top { display: flex; align-items: flex-start; gap: 9px; }
+.card-title { flex: 1; min-width: 0; font-size: 13.5px; word-break: break-word; }
+.card.done .card-title { text-decoration: line-through; }
+
+/* Task and subtask text reads as text: I-beam cursor, and selectable so it can
+   be copied. This sits on an inline span rather than the block that holds it,
+   so the I-beam ends where the words end. Everything else stays a drag surface. */
+.sel-text {
+  cursor: text;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.check {
+  flex: none;
+  width: 18px; height: 18px; margin-top: 1px; padding: 0;
+  border: 1.5px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: transparent;
+  font-size: 10px;
+  display: grid; place-items: center;
+}
+.check:hover { border-color: var(--ok); color: var(--ok); }
+.check.on { background: var(--ok); border-color: var(--ok); color: #fff; }
+.check.sm { width: 15px; height: 15px; border-radius: 4px; font-size: 9px; }
+
+.card-meta { display: flex; flex-wrap: wrap; gap: 5px; margin: 7px 0 0; padding-left: 27px; }
+.chip {
+  font-size: 11px; color: var(--muted);
+  background: var(--line-soft);
+  border-radius: 5px; padding: 1px 6px;
+  white-space: nowrap;
+}
+.chip.p1 { color: var(--danger); font-weight: 700; }
+.chip.due-over { color: var(--danger); font-weight: 600; }
+.chip.due-today { color: var(--warn); font-weight: 600; }
+.chip.all-done { color: var(--ok); }
+.chip.proj { background: var(--accent-soft); color: var(--accent); }
+
+.card-body { margin-top: 10px; padding-left: 27px; }
+
+.subs { list-style: none; margin: 0 0 8px; padding: 0; }
+/* Top-aligned so a subtask that wraps keeps its checkbox beside the first line,
+   not floating halfway down the block. The 2px centres the 15px box on the
+   first line of 12.5px text. */
+.subs li { display: flex; align-items: flex-start; gap: 8px; padding: 3px 0; font-size: 12.5px; }
+.subs .check.sm { margin-top: 2px; }
+/* `anywhere` lets an unbroken string such as a pasted URL wrap mid-word instead
+   of spilling out of the card and across the neighbouring columns. */
+.subs .st { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.sub-link { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.sub-link:hover { text-decoration-thickness: 2px; }
+.subs .st.on { text-decoration: line-through; color: var(--muted); }
+.subs .ghost.sm { font-size: 13px; padding: 0 5px; opacity: 0; }
+.subs li:hover .ghost.sm { opacity: 1; }
+
+.card-acts { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; }
+.card-acts button { font-size: 11.5px; padding: 3px 8px; border-radius: 6px; color: var(--muted); }
+.proj-select {
+  font: inherit; font-size: 11.5px;
+  padding: 3px 6px; border-radius: 6px;
+  background: var(--panel); color: var(--muted);
+  border: 1px solid var(--line);
+  max-width: 150px;
+}
+
+/* ---------- calendar ---------- */
+
+.cal-card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: 12px; padding: 12px 14px; margin-bottom: 18px;
+  max-width: 620px;
+}
+.cal-head { font-size: 13px; font-weight: 600; }
+.cal-events { list-style: none; margin: 8px 0 0; padding: 0; }
+.cal-events li { display: flex; gap: 12px; padding: 3px 0; font-size: 12.5px; }
+.cal-events li.free { color: var(--muted); }
+.cal-time { flex: none; width: 96px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.cal-title { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- quick add ---------- */
+
+#quick {
+  grid-column: 2; grid-row: 2;
+  display: flex; gap: 8px;
+  padding: 12px 24px;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+}
+#quick select, #quick input {
+  font: inherit; color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+#quick select { flex: none; width: 128px; }
+#quick input { flex: 1; min-width: 0; }
+#quick input:focus, .setup input:focus {
+  outline: none; border-color: var(--accent);
+}
+#quick button { flex: none; padding: 8px 18px; }
+
+/* ---------- narrow fallback ----------
+   The board is a desktop tool. Below this width it degrades to a single
+   readable column rather than pretending three fit. */
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr) auto; }
+  #sidebar {
+    grid-row: 1; grid-column: 1;
+    flex-direction: row; align-items: center; gap: 6px;
+    overflow-x: auto; overflow-y: hidden;
+    border-right: none; border-bottom: 1px solid var(--line);
+    padding: 8px 10px;
+  }
+  .brand { padding: 0 6px 0 2px; }
+  .nav { flex-direction: row; }
+  .nav-item { width: auto; white-space: nowrap; }
+  .side-head { margin: 0 0 0 8px; padding: 0; }
+  .side-foot { margin: 0 0 0 auto; padding-top: 0; border-top: none; }
+  .status { display: none; }
+  #main { grid-column: 1; grid-row: 2; padding: 16px; }
+  #quick { grid-column: 1; grid-row: 3; padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); }
+  .board { grid-template-columns: 1fr; }
+  .card { cursor: default; }
+}

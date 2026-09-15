@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Liva</title>
+<meta name="theme-color" content="#4f46e5">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="setup" class="setup hidden">
+  <h1>Connect your data</h1>
+  <p class="muted">
+    This page holds no data of its own. Point it at your private repo and it
+    reads and writes <code>data/tasks.json</code> directly through the GitHub API.
+  </p>
+  <label>Repository <span class="muted">owner/name</span>
+    <input id="s-repo" placeholder="Ramiiyan/liva-core" autocapitalize="off" autocorrect="off" spellcheck="false">
+  </label>
+  <label>Branch
+    <input id="s-branch" value="main" autocapitalize="off" spellcheck="false">
+  </label>
+  <label>Fine-grained token <span class="muted">Contents: read &amp; write, that repo only</span>
+    <input id="s-token" type="password" placeholder="github_pat_…" autocapitalize="off" autocorrect="off" spellcheck="false">
+  </label>
+  <p class="warn">
+    The token is kept in this browser's local storage and sent only to
+    <code>api.github.com</code>. Scope it to this one repo, and revoke it from
+    GitHub settings if you lose the machine.
+  </p>
+  <button id="s-save" class="primary">Connect</button>
+  <p id="s-error" class="error"></p>
+</div>
+
+<div id="app" class="app hidden">
+
+  <aside id="sidebar">
+    <div class="brand">
+      <img src="icon-192.png" alt="" width="22" height="22">
+      <span>Liva</span>
+    </div>
+
+    <nav class="nav">
+      <button class="nav-item active" data-view="today">
+        <span class="nav-ico">◎</span> Today
+        <span class="nav-count" id="c-today"></span>
+      </button>
+      <button class="nav-item" data-view="all">
+        <span class="nav-ico">▤</span> All tasks
+        <span class="nav-count" id="c-all"></span>
+      </button>
+    </nav>
+
+    <div class="side-head">
+      <span>Projects</span>
+      <button id="new-project" class="ghost" title="New project" aria-label="New project">+</button>
+    </div>
+    <nav class="nav" id="project-nav"></nav>
+
+    <div class="side-foot">
+      <span id="status" class="status"></span>
+      <button id="refresh" class="ghost" title="Refresh" aria-label="Refresh">⟳</button>
+      <button id="settings" class="ghost" title="Settings" aria-label="Settings">⚙</button>
+    </div>
+  </aside>
+
+  <main id="main">
+    <header id="main-head"></header>
+    <div id="content"></div>
+  </main>
+
+  <form id="quick" autocomplete="off">
+    <select id="q-area" aria-label="Area">
+      <option value="work">💼 work</option>
+      <option value="career">🚀 career</option>
+      <option value="learning">📚 learning</option>
+      <option value="personal" selected>🏡 personal</option>
+      <option value="health">💪 health</option>
+    </select>
+    <input id="q-text" placeholder="Add a task…   !1 @tomorrow ~weekly:mon" enterkeyhint="done">
+    <button type="submit" class="primary" aria-label="Add">Add</button>
+  </form>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
